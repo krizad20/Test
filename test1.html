@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 1</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid rgb(0, 0, 0);
+            align-self: center;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        th,
+        td {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid rgb(0, 0, 0);
+            align-self: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="test1.html">Test 1</a></li>
+            <li><a href="test2.html">Test 2</a></li>
+        </ul>
+    </nav>
+    <div class="container-fluid">
+        <br>
+        <div class="container s">
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th style="width: 1%; text-align: center;">#</th>
+                        <th style="text-align: center;">A</th>
+                        <th style="text-align: center;">B</th>
+                        <th style="text-align: center;">Sum</th>
+                        <th style="text-align: center;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: center;">
+                            <input type="number" name="a1" id="a1">
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" name="b1" id="b1">
+                        </td>
+                        <td style="text-align: center;">
+                            <span id="sumRow"></span>
+                        </td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn btn-primary" onclick="add()">Add</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <footer>
+                    <tr>
+                        <td>Sum</td>
+                        <td style="text-align: center;"><span id="sumColA"></span></td>
+                        <td style="text-align: center;"><span id="sumColB"></span></td>
+                        <td style="text-align: center;"><span id="sumAll"></span></td>
+                        <td style="text-align: center;"></td>
+                    </tr>
+                </footer>
+
+
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+    function add() {
+        var a1 = document.getElementById('a1').value;
+        var b1 = document.getElementById('b1').value;
+
+        var a1Val = parseInt(a1);
+        var b1Val = parseInt(b1);
+
+        if (isNaN(a1Val)) {
+            a1Val = 0;
+        }
+        if (isNaN(b1Val)) {
+            b1Val = 0;
+        }
+
+
+        var sumRow = a1Val + b1Val;
+
+
+
+        document.getElementById('a1').value = '';
+        document.getElementById('b1').value = '';
+        document.getElementById('a1').focus();
+
+        var table = document.getElementsByTagName('table')[0];
+        var row = table.insertRow(table.rows.length - 2);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+
+        cell1.innerHTML = table.rows.length - 3;
+        cell2.innerHTML = a1;
+        cell2.style.textAlign = "center";
+        cell3.innerHTML = b1;
+        cell3.style.textAlign = "center";
+        cell4.innerHTML = sumRow;
+        cell4.style.textAlign = "center";
+        cell5.innerHTML = '<button type="button" class="btn btn-danger" onclick="del(this)">Del</button>';
+        cell5.style.textAlign = "center";
+
+
+        getSumCol();
+
+
+    }
+
+    function del(row) {
+        var table = document.getElementsByTagName('table')[0];
+        var rowIndex = row.parentNode.parentNode.rowIndex;
+        table.deleteRow(rowIndex);
+        runID();
+        getSumCol();
+        document.getElementById('a1').focus();
+
+    }
+
+    function runID() {
+        var table = document.getElementsByTagName('table')[0];
+        for (var i = 1; i < table.rows.length - 2; i++) {
+            table.rows[i].cells[0].innerHTML = i;
+        }
+    }
+
+    function getSumCol() {
+        var table = document.getElementsByTagName('table')[0];
+        var sumColA = document.getElementById('sumColA').innerHTML;
+        var sumColB = document.getElementById('sumColB').innerHTML;
+        var sumAll = document.getElementById('sumAll').innerHTML;
+
+        var sumColA = 0;
+        var sumColB = 0;
+
+
+
+        for (let i = 1; i < table.rows.length - 2; i++) {
+            var colA = parseInt(table.rows[i].cells[1].innerHTML);
+            var colB = parseInt(table.rows[i].cells[2].innerHTML);
+            if (isNaN(colA)) {
+                colA = 0;
+            }
+            if (isNaN(colB)) {
+                colB = 0;
+            }
+            sumColA += colA;
+            sumColB += colB;
+
+
+
+        }
+
+        if (table.rows.length - 3 == 0) {
+            document.getElementById('sumColA').innerHTML = "";
+            document.getElementById('sumColB').innerHTML = "";
+            document.getElementById('sumAll').innerHTML = "";
+        }
+        else {
+            document.getElementById('sumColA').innerHTML = sumColA;
+            document.getElementById('sumColB').innerHTML = sumColB;
+            document.getElementById('sumAll').innerHTML = sumColA + sumColB;
+        }
+
+
+    }
+</script>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test2</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="test1.html">Test 1</a></li>
+            <li><a href="test2.html">Test 2</a></li>
+        </ul>
+    </nav>
+    <div class="modal" id="addModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="code">Code</label>
+                            <input type="text" class="form-control" id="code" placeholder="Code" autofocus required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <textarea type="text" class="form-control" id="name" placeholder="Name"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- click to open modal -->
+    <div class="container-fluid">
+        <br>
+        <div class="container s">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+                Add</button>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th width="40%">Code</th>
+                        <th width="40%">Name</th>
+                        <th width="20%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+</body>
+<script>
+
+    //jquery
+    $(document).ready(function () {
+
+        var table = $('.table');
+
+        $("#save").on("click", function () {
+
+            if ($("#code").val() == "") {
+                alert("Code is required");
+                return false;
+            }
+
+            var code = $("#code").val();
+            var name = $("#name").val();
+
+            if ($("#save").text() == "Add") {
+                table.append("<tr><td>" + code + "</td><td>" + name + '</td><td align="center"><button class="btn btn-warning edit" id="edit">Edit</button><button class="btn btn-danger del">Delete</button></td></tr>');
+            }
+            else {
+                //find row 
+                var row = $(".edit").closest("tr");
+                row.find("td:nth-child(2)").text(name);
+
+
+
+            }
+
+            $("#addModal").modal("hide");
+            $("#save").text("Add");
+
+
+
+
+        })
+
+        table.on("click", ".del", function () {
+            let confirm = window.confirm("Are you sure?");
+            if (confirm) {
+                $(this).closest("tr").remove();
+            }
+        })
+
+        table.on("click", ".edit", function () {
+            var code = $(this).parent().prev().prev().text();
+            var name = $(this).parent().prev().text();
+
+            $("#code").val(code);
+            $("#code").attr("readonly", true);
+            $("#name").val(name);
+            $("#addModal").modal("show");
+
+            $("#save").text("Update");
+        })
+
+        $("#addModal").on("hidden.bs.modal", function () {
+            $("#code").val("");
+            $("#code").attr("readonly", false);
+            $("#name").val("");
+            $("#save").text("Add");
+        })
+
+        $("#addModal").on("shown.bs.modal", function () {
+            $("#code").focus();
+
+            if ($("#code").attr("readonly") == "readonly") {
+                $("#name").focus();
+            }
+
+
+        })
+
+    });
+
+
+
+
+</script>
+
+</html>
