@@ -90,6 +90,8 @@
 </body>
 
 <script>
+    var table = document.getElementsByTagName('table')[0];
+
     function add() {
         var a1 = document.getElementById('a1').value;
         var b1 = document.getElementById('b1').value;
@@ -113,7 +115,7 @@
         document.getElementById('b1').value = '';
         document.getElementById('a1').focus();
 
-        var table = document.getElementsByTagName('table')[0];
+        // var table = document.getElementsByTagName('table')[0];
         var row = table.insertRow(table.rows.length - 2);
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
@@ -138,7 +140,7 @@
     }
 
     function del(row) {
-        var table = document.getElementsByTagName('table')[0];
+        // var table = document.getElementsByTagName('table')[0];
         var rowIndex = row.parentNode.parentNode.rowIndex;
         table.deleteRow(rowIndex);
         runID();
@@ -148,14 +150,14 @@
     }
 
     function runID() {
-        var table = document.getElementsByTagName('table')[0];
+        // var table = document.getElementsByTagName('table')[0];
         for (var i = 1; i < table.rows.length - 2; i++) {
             table.rows[i].cells[0].innerHTML = i;
         }
     }
 
     function getSumCol() {
-        var table = document.getElementsByTagName('table')[0];
+        // var table = document.getElementsByTagName('table')[0];
         var sumColA = document.getElementById('sumColA').innerHTML;
         var sumColB = document.getElementById('sumColB').innerHTML;
         var sumAll = document.getElementById('sumAll').innerHTML;

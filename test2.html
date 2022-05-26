@@ -95,16 +95,10 @@
                 //find row 
                 var row = $(".edit").closest("tr");
                 row.find("td:nth-child(2)").text(name);
-
-
-
             }
 
             $("#addModal").modal("hide");
             $("#save").text("Add");
-
-
-
 
         })
 
@@ -136,12 +130,9 @@
 
         $("#addModal").on("shown.bs.modal", function () {
             $("#code").focus();
-
             if ($("#code").attr("readonly") == "readonly") {
                 $("#name").focus();
             }
-
-
         })
 
     });
