@@ -89,7 +89,7 @@
             var name = $("#name").val();
 
             if ($("#save").text() == "Add") {
-                table.append("<tr><td>" + code + "</td><td>" + name + '</td><td align="center"><button class="btn btn-warning edit" id="edit">Edit</button><button class="btn btn-danger del">Delete</button></td></tr>');
+                table.append("<tr><td>" + code + "</td><td>" + name + '</td><td align="center"><button class="btn btn-warning edit d-flex align-items-start" id="edit">Edit</button><button class="btn btn-danger del d-flex align-items-end">Delete</button></td></tr>');
             }
             else {
                 //find row 
