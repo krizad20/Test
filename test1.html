@@ -94,16 +94,10 @@
 
     $(document).ready(function () {
         //on change
-        $(document).on('keyup', '.table-value', function() {
-            let row = $(this).parent().parent();
-            //find by name
-            let a = row.find('input[name="a"]').val();
-            let b = row.find('input[name="b"]').val();
-            let sumRow = Number(a) + Number(b);
-            row.find('.sumRow').text(sumRow);
-            getSumCol();
+        $(document).on('keyup change', 'table', function () {
+            updateTable();
         })
-        
+
 
     });
 
@@ -111,18 +105,6 @@
     function add() {
         var a1 = $('#a1').val();
         var b1 = $('#b1').val();
-
-        var a1Val = parseFloat(a1);
-        var b1Val = parseFloat(b1);
-
-        if (isNaN(a1Val)) {
-            a1Val = 0;
-        }
-        if (isNaN(b1Val)) {
-            b1Val = 0;
-        }
-
-        var sumRow = a1Val + b1Val;
 
         $("#a1").val('');
         $("#b1").val('');
@@ -138,17 +120,20 @@
 
         cell1.innerHTML = table.rows.length - 3;
         cell1.style.textAlign = "center";
+
         cell2.innerHTML = '<input class="table-value" name="a" type="number" value = ' + a1 + '>';
         cell2.style.textAlign = "center";
+
         cell3.innerHTML = '<input class="table-value" name="b" type="number" value = ' + b1 + '>';;
         cell3.style.textAlign = "center";
-        cell4.innerHTML = sumRow;
+
         cell4.className = "sumRow";
         cell4.style.textAlign = "center";
+        
         cell5.innerHTML = '<button type="button" class="btn btn-danger" onclick="del(this)">Del</button>';
         cell5.style.textAlign = "center";
 
-        getSumCol();
+        updateTable();
 
 
     }
@@ -157,8 +142,7 @@
         // var table = document.getElementsByTagName('table')[0];
         var rowIndex = row.parentNode.parentNode.rowIndex;
         table.deleteRow(rowIndex);
-        runID();
-        getSumCol();
+        updateTable();
         document.getElementById('a1').focus();
 
     }
@@ -170,19 +154,25 @@
         }
     }
 
-    function getSumCol() {
+    function updateTable() {
         // var table = document.getElementsByTagName('table')[0];
-        var sumColA = document.getElementById('sumColA').innerHTML;
-        var sumColB = document.getElementById('sumColB').innerHTML;
-        var sumAll = document.getElementById('sumAll').innerHTML;
-
+        runID();
         var sumColA = 0;
         var sumColB = 0;
 
-
         $("input[class='table-value']").each(function () {
             var value = $(this).val();
-            if (value != '' ) {
+            let row = $(this).parent().parent();
+            let a = parseFloat(row.find('input[name="a"]').val());
+            let b = parseFloat(row.find('input[name="b"]').val());
+            if (isNaN(a)) {
+                a = 0;
+            }
+            if (isNaN(b)) {
+                b = 0;
+            }
+            row.find('.sumRow').text(a + b);
+            if (value != '') {
                 if (this.name == 'a') {
                     sumColA += parseFloat(value);
                 } else {
@@ -192,14 +182,14 @@
         });
 
         if (table.rows.length - 3 == 0) {
-            document.getElementById('sumColA').innerHTML = "";
-            document.getElementById('sumColB').innerHTML = "";
-            document.getElementById('sumAll').innerHTML = "";
+            $('#sumColA').text('');
+            $('#sumColB').text('');
+            $('#sumAll').text('');
         }
         else {
-            document.getElementById('sumColA').innerHTML = sumColA;
-            document.getElementById('sumColB').innerHTML = sumColB;
-            document.getElementById('sumAll').innerHTML = sumColA + sumColB;
+            $('#sumColA').text(sumColA);
+            $('#sumColB').text(sumColB);
+            $('#sumAll').text(sumColA + sumColB);
         }
 
 
